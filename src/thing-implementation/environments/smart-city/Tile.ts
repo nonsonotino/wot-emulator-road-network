@@ -27,4 +27,24 @@ export class Tile {
     public getY() : number {
         return this.y;
     }
+
+    //Add new vehicle to the tile.
+    public addVehicle(vehicleID : string) {
+        this.vehicles.push(vehicleID);
+    }
+
+    //Remove the specified vehicle from the tile.
+    public removeVehicle(vehicleID : string) {
+        this.vehicles = this.vehicles.filter(ID => ID != vehicleID);
+    }
+
+    //Add new static object to the tile.
+    public addStaticObject(objectID : string) {
+        this.staticObjects.push(objectID);
+    }
+
+    //Remove the specified static object from the tile. 
+    public removeStaticObject(objectID : string) {
+        this.staticObjects = this.staticObjects.filter(ID => ID != objectID);
+    }
 }
