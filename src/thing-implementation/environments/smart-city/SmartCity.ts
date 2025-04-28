@@ -8,10 +8,10 @@ import { Tile } from "./Tile";
 export class SmartCity extends Thing {
 
     //Smart city identifier.
-    private title : string = "";
+    private title: string = "";
 
     //Simulation road network grid.
-    private grid : Tile[][] = [];
+    private grid: Tile[][] = [];
 
     // Base structure of the city's TD.
     private static initBase: WoT.ExposedThingInit = {
@@ -33,23 +33,54 @@ export class SmartCity extends Thing {
         }
     };
 
-    //TODO: REWRITE METHOD
+    //TODO: FINISH METHOD
+    //Smart city constructor.
     constructor(servient: Servient, init: WoT.ExposedThingInit) {
-        super(servient, init);
+        const tmpGrid: Tile[][] = [];
+
+        (init.tiles as any).forEach((tileInit: any) => {
+            tmpGrid[tileInit.x][tileInit.y] = new Tile(tileInit.title, tileInit.x, tileInit.y, tileInit.isObstacle,
+                tileInit.vehicles, tileInit.staticObjects);
+
+            const tileId = tileInit.title;
+
+            //TODO add properties
+        });
+
+        super(servient, init, SmartCity.initBase);
+
+        this.configureProperties(init);
+        this.setPropertiesDefaultHandler(init);
+
+        this.grid = tmpGrid;
+
+        //TODO urls
     }
 
     //Returns SmartCity identifier.
-    public getTitle() : string {
+    public getTitle(): string {
         return this.title;
     }
 
     //Returns simulation grid.
-    public getGrid() : Tile[][] {
+    public getGrid(): Tile[][] {
         return this.grid;
-    } 
-    
+    }
+
     //Update function.
     public update(deltaTime: number): void {
         throw new Error("Method not implemented.");
     }
+
+    //TODO: implement
+    //Returns a JSON representation of the SmartCity.
+    public toString(): string {
+        return "";
+    }
+}
+
+//TODO: is it necessary?
+//Factory function to create a new SmartCity istance
+export function create(servient: Servient, init: WoT.ExposedThingInit): SmartCity {
+    return new SmartCity(servient, init);
 }
