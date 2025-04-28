@@ -19,9 +19,11 @@ export class Tile {
     private staticObjects: string[] = [];
 
     //Constructor fo the Tile class.
-    constructor(title: string, x: number, y: number, vehicles: string[], staticObjects: string[]) {
+    constructor(title: string, x: number, y: number, isObstacle: boolean, vehicles: string[], staticObjects: string[]) {
+        this.title = title;
         this.x = x;
         this.y = y;
+        this.isObstacle = isObstacle;
         this.vehicles = vehicles;
         this.staticObjects = staticObjects;
     }
