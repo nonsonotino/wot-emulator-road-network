@@ -19,10 +19,11 @@ export class Tile {
     private staticObjects: string[] = [];
 
     //Constructor fo the Tile class.
-    constructor(x: number, y: number, vehicles: string[],) {
-        //Initialization of the tile position.
+    constructor(title: string, x: number, y: number, vehicles: string[], staticObjects: string[]) {
         this.x = x;
         this.y = y;
+        this.vehicles = vehicles;
+        this.staticObjects = staticObjects;
     }
 
     //Get the tile's identifier.
