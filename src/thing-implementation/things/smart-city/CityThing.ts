@@ -7,10 +7,9 @@ import { SituatedThing } from "../../SituatedThing";
 export abstract class CityThing extends SituatedThing<SmartCity> {
 
     //Position inside the simulation grid
-    protected x : number = 0;
-    protected y : number = 0;
+    protected coords: Coordinate = { x: 0, y: 0 };  
 
     //Boolean to define if the object is static or can
     //be moved inside the simulation grid.
-    protected movable : boolean = false;
+    protected movable: boolean = false;
 }
