@@ -69,6 +69,11 @@ export class SmartCity extends Thing {
         return this.grid;
     }
 
+    //Move the specified car in an avilable tile of the grid.
+    public moveCar(carId: string, currentPosition: Coordinate): Promise<void> {
+        
+    }
+
     //Update function.
     public update(deltaTime: number): void {
         throw new Error("Method not implemented.");
