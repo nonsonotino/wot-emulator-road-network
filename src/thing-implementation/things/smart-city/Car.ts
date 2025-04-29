@@ -9,12 +9,20 @@ import { eventQueue } from "../../../simulation/eventQueue";
 //It need to update its position moving in a new road cell.
 class Car extends CityThing {
 
+    //Car identifier.
     private licensePlate: string = "";
 
+    //Last visited cell.
+    private lastVisitedCell: Coordinate = { x: 0, y: 0 };
+
+    //Speed of the car.
+    private speed: number = 0;//TODO implemet
+
     //Base structure of the car's TD
+    //TODO Rewrite
     private static initBase: WoT.ExposedThingInit = {
         description: "Representation of a vehicle moving inside the road network.",
-        forms: [ //TODO check correttezza form
+        forms: [ 
             {
                 href: "things",
                 op: ["readproperty", "writeproperty", "observeproperty"],
@@ -51,10 +59,11 @@ class Car extends CityThing {
     };
 
     //Car constructor.
-    constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity) {
+    constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity, coords: Coordinate) {
         super(servient, init, Car.initBase, environment);
 
-        //TODO setup action handlers
+        //Set starting point
+        this.coords = coords;
 
         this.setPropertiesDefaultHandler(init);
         this.configureProperties(init);
@@ -65,6 +74,17 @@ class Car extends CityThing {
         return this.licensePlate;
     }
 
+    //Returns the last visited cell.
+    public getLastVisitedCell(): Coordinate {
+        return this.lastVisitedCell;
+    }
+
+    //Move the car in the specified cell.
+    public moveTo(newCoords: Coordinate): void {
+        this.lastVisitedCell = this.coords;
+        this.coords = newCoords;
+    }
+
     //The car moves in a random direction from those available
     //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
@@ -73,8 +93,6 @@ class Car extends CityThing {
 }
 
 // Factory function to create a new Car instance.
-export function create(servient: Servient,
-                       init: any,
-                       environment: SmartCity): Car {
-    return new Car(servient, init, environment);
+export function create(servient: Servient, init: any, environment: SmartCity, coords: Coordinate): Car {
+    return new Car(servient, init, environment, coords);
 }
