@@ -2,6 +2,8 @@ import Servient from "@node-wot/core";
 import { CityThing } from "./CityThing";
 import { SituatedThing } from "../../SituatedThing";
 import { write } from "fs";
+import { SmartCity } from "../../environments/smart-city/SmartCity";
+import { eventQueue } from "../../../simulation/eventQueue";
 
 //Class that defines a car inside the smart city simulation.
 //It need to update its position moving in a new road cell.
@@ -48,18 +50,31 @@ class Car extends CityThing {
         }
     };
 
+    //Car constructor.
+    constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity) {
+        super(servient, init, Car.initBase, environment);
+
+        //TODO setup action handlers
+
+        this.setPropertiesDefaultHandler(init);
+        this.configureProperties(init);
+    }
+
     //Returns the car's liecense plate.
     public getLicensePlate(): string {
         return this.licensePlate;
     }
 
-    private move(): void {
-        
-    }
-
     //The car moves in a random direction from those available
-    //updates its own position and the position in the envoronment.
+    //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
-        throw new Error("Method not implemented.");
+        //TODO: create a SmartCity method to get the next tile in the path.
     }
+}
+
+// Factory function to create a new Car instance.
+export function create(servient: Servient,
+                       init: any,
+                       environment: SmartCity): Car {
+    return new Car(servient, init, environment);
 }
