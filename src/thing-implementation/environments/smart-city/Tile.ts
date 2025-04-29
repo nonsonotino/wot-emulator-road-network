@@ -5,8 +5,7 @@ export class Tile {
     private title: string = "";
 
     //Coordinates inside the simulation.
-    private x: number = 0;
-    private y: number = 0;
+    private coords: Coordinate = { x: 0, y: 0 }; 
 
     //TODO: ha senso? In alternativa creare struttura di classi Tile/Road/Obstacle
     //Boolean to represent the transitability if the tile.
@@ -19,10 +18,9 @@ export class Tile {
     private staticObjects: string[] = [];
 
     //Constructor fo the Tile class.
-    constructor(title: string, x: number, y: number, isObstacle: boolean, vehicles: string[], staticObjects: string[]) {
+    constructor(title: string, coords: Coordinate, isObstacle: boolean, vehicles: string[], staticObjects: string[]) {
         this.title = title;
-        this.x = x;
-        this.y = y;
+        this.coords = coords;
         this.isObstacle = isObstacle;
         this.vehicles = vehicles;
         this.staticObjects = staticObjects;
@@ -33,14 +31,19 @@ export class Tile {
         return this.title;
     }
 
+    //Get the tile's coordinates.
+    public getCoordinates(): Coordinate {
+        return this.coords;
+    }
+
     //Get the tile's X coordinate.
     public getX(): number {
-        return this.x;
+        return this.coords.x;
     }
 
     //Get Tile's Y coordinate.
     public getY(): number {
-        return this.y;
+        return this.coords.y;
     }
 
     //Add new vehicle to the tile.
