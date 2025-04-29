@@ -38,8 +38,10 @@ export class SmartCity extends Thing {
     constructor(servient: Servient, init: WoT.ExposedThingInit) {
         const tmpGrid: Tile[][] = [];
 
+        //Create and configure tiles from config file.
         (init.tiles as any).forEach((tileInit: any) => {
-            tmpGrid[tileInit.x][tileInit.y] = new Tile(tileInit.title, tileInit.x, tileInit.y, tileInit.isObstacle,
+            const coords: Coordinate = {x: Number(init.x), y: Number(init.y)};
+            tmpGrid[tileInit.x][tileInit.y] = new Tile(tileInit.title, coords, tileInit.isObstacle,
                 tileInit.vehicles, tileInit.staticObjects);
 
             const tileId = tileInit.title;
@@ -54,7 +56,7 @@ export class SmartCity extends Thing {
 
         this.grid = tmpGrid;
 
-        //TODO urls
+        //TODO properties urls
     }
 
     //Returns SmartCity identifier.
