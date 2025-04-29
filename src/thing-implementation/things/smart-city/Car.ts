@@ -7,7 +7,7 @@ import { eventQueue } from "../../../simulation/eventQueue";
 
 //Class that defines a car inside the smart city simulation.
 //It need to update its position moving in a new road cell.
-class Car extends CityThing {
+export class Car extends CityThing {
 
     //Car identifier.
     private licensePlate: string = "";
