@@ -1,6 +1,7 @@
 import Servient from "@node-wot/core";
 import { Thing } from "../../Thing";
 import { Tile } from "./Tile";
+import { Car } from "../../things/smart-city/Car"; // Import the Car type
 
 //The SmartCity class models an environment representing the road network of smart city.
 //It aims to simulate the movement of a set of cars inside itself keeping track of their positions
@@ -9,6 +10,16 @@ export class SmartCity extends Thing {
 
     //Smart city identifier.
     private title: string = "";
+
+    //Dimensions of the simulation grid.
+    private gridHeight: number = 0;
+    private gridWidth: number = 0;
+
+    //Obstacles positions.
+    private obstacles: boolean[][] = [];
+
+    //List of the vehicles present in the simulation.
+    private vehicles: Map<string, Car> = new Map();
 
     //Simulation road network grid.
     private grid: Tile[][] = [];
@@ -69,9 +80,33 @@ export class SmartCity extends Thing {
         return this.grid;
     }
 
+    private getValidNeighbor(coords: Coordinate): Coordinate {
+        const directions = [
+            { x: 0, y: -1 }, // Up
+            { x: 1, y: 0 }, // Right
+            { x: 0, y: 1 }, // Down
+            { x: -1, y: 0 } // Left
+        ];
+
+
+        // Filter valid neighbors based on grid boundaries
+        //TODO add obstacles boundaries
+        const validNeighbors = directions
+                .map(({ x, y }) => ({ x: coords.x + x, y: coords.y + y }))
+                .filter(({ x, y }) => x >= 0 && y >= 0 && x < this.gridWidth && y < this.gridHeight)
+                .map(({ x, y }) => this.grid[x][y]);
+
+        return {x: 0, y: 0}; //TODO: implement logic to find a valid neighbor
+    }
+
     //Move the specified car in an avilable tile of the grid.
-    public moveCar(carId: string, currentPosition: Coordinate): Promise<void> {
+    public async moveCar(carId: string): Promise<void> {
+        const newPosition: Coordinate = { x: 0, y: 0 };
+
         
+        //TODO: implement logic to find a new position
+
+        this.vehicles.get(carId)?.moveTo(newPosition);
     }
 
     //Update function.
