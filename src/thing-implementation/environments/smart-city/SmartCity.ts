@@ -21,6 +21,16 @@ export class SmartCity extends Thing {
     //List of the vehicles present in the simulation.
     private vehicles: Map<string, Car> = new Map();
 
+    //TODO traffic light and licenses plates reade lists
+
+    //List of the direcrions in which a car can move.
+    static directions = [
+        { x: 0, y: -1 }, // Up
+        { x: 1, y: 0 }, // Right
+        { x: 0, y: 1 }, // Down
+        { x: -1, y: 0 } // Left
+    ];
+
     //Simulation road network grid.
     private grid: Tile[][] = [];
 
@@ -80,32 +90,25 @@ export class SmartCity extends Thing {
         return this.grid;
     }
 
-    private getValidNeighbor(coords: Coordinate): Coordinate {
-        const directions = [
-            { x: 0, y: -1 }, // Up
-            { x: 1, y: 0 }, // Right
-            { x: 0, y: 1 }, // Down
-            { x: -1, y: 0 } // Left
-        ];
-
-
-        // Filter valid neighbors based on grid boundaries
+    //Returns a random valid neighbor of the specified coordinates.
+    private getValidNeighbor(coords: Coordinate, ): Coordinate {
+        //Filter valid neighbors based on grid boundaries
         //TODO add obstacles boundaries
-        const validNeighbors = directions
+        const validNeighbors = SmartCity.directions
                 .map(({ x, y }) => ({ x: coords.x + x, y: coords.y + y }))
-                .filter(({ x, y }) => x >= 0 && y >= 0 && x < this.gridWidth && y < this.gridHeight)
-                .map(({ x, y }) => this.grid[x][y]);
+                .filter(({ x, y }) => x >= 0 && y >= 0 && x < this.gridWidth && y < this.gridHeight
+                    && !this.obstacles[x][y] == false); //Check if the tile is not an obstacle
 
-        return {x: 0, y: 0}; //TODO: implement logic to find a valid neighbor
+        const randomNeighbor = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
+
+        return randomNeighbor;
     }
 
     //Move the specified car in an avilable tile of the grid.
     public async moveCar(carId: string): Promise<void> {
-        const newPosition: Coordinate = { x: 0, y: 0 };
+        const car: Car = this.vehicles.get(carId) as Car;
 
-        
-        //TODO: implement logic to find a new position
-
+        const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate);
         this.vehicles.get(carId)?.moveTo(newPosition);
     }
 
