@@ -31,9 +31,6 @@ export class SmartCity extends Thing {
         { x: -1, y: 0 } // Left
     ];
 
-    //Simulation road network grid.
-    private grid: Tile[][] = [];
-
     // Base structure of the city's TD.
     private static initBase: WoT.ExposedThingInit = {
         "@context": "https://www.w3.org/2019/wot/td/v1",
@@ -75,8 +72,6 @@ export class SmartCity extends Thing {
         this.configureProperties(init);
         this.setPropertiesDefaultHandler(init);
 
-        this.grid = tmpGrid;
-
         //TODO properties urls
     }
 
@@ -85,19 +80,15 @@ export class SmartCity extends Thing {
         return this.title;
     }
 
-    //Returns simulation grid.
-    public getGrid(): Tile[][] {
-        return this.grid;
-    }
-
     //Returns a random valid neighbor of the specified coordinates.
     private getValidNeighbor(coords: Coordinate, ): Coordinate {
-        //Filter valid neighbors based on grid boundaries
-        //TODO add obstacles boundaries
+        //Filter valid neighbors based on grid boundaries and obstacles.
         const validNeighbors = SmartCity.directions
                 .map(({ x, y }) => ({ x: coords.x + x, y: coords.y + y }))
                 .filter(({ x, y }) => x >= 0 && y >= 0 && x < this.gridWidth && y < this.gridHeight
                     && !this.obstacles[x][y] == false); //Check if the tile is not an obstacle
+
+        //TODO: add check for previous tile.
 
         const randomNeighbor = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
 
@@ -107,9 +98,10 @@ export class SmartCity extends Thing {
     //Move the specified car in an avilable tile of the grid.
     public async moveCar(carId: string): Promise<void> {
         const car: Car = this.vehicles.get(carId) as Car;
-
         const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate);
         this.vehicles.get(carId)?.moveTo(newPosition);
+
+        //TODO: send evento to the eventual license plate reader of the presence of a new car.
     }
 
     //Update function.
