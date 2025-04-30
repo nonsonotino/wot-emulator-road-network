@@ -74,6 +74,11 @@ export class Car extends CityThing {
         return this.licensePlate;
     }
 
+    //Return the car's coordinates.
+    public getCoordinates(): Coordinate {
+        return this.coords; 
+    }   
+
     //Returns the last visited cell.
     public getLastVisitedCell(): Coordinate {
         return this.lastVisitedCell;
