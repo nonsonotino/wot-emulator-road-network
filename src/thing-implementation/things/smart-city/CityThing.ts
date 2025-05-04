@@ -11,5 +11,5 @@ export abstract class CityThing extends SituatedThing<SmartCity> {
 
     //Boolean to define if the object is static or can
     //be moved inside the simulation grid.
-    protected movable: boolean = true;
+    protected movable: boolean = true; //TODO: is it needed?
 }

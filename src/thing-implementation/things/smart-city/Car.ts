@@ -93,7 +93,9 @@ export class Car extends CityThing {
     //The car moves in a random direction from those available
     //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
-        //TODO: create a SmartCity method to get the next tile in the path.
+        this.environment.moveCar(this.licensePlate);
+
+        //TODO: car should be a periodic thing to simulate the movement speed.
     }
 }
 
