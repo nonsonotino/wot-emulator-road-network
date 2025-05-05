@@ -1,0 +1,35 @@
+{
+    "environments": [
+        {
+            "type": "SmartCity",
+            "title": "SmartCity"
+        }
+    ],
+    "servients": [
+        {
+            "id": 0,
+            "type": "http",
+            "host": "localhost",
+            "port": 8081
+        },
+        {
+            "id": 1,
+            "type": "http",
+            "host": "localhost",
+            "port": 8082
+        }
+    ],
+    "things": [
+        {
+            "title": "car1",
+            "type": "Car",
+            "environment": "SmartCity",
+            "licensePlate": "ABC123",
+            "speed": 60,
+            "cooords": {
+                "x": 1,
+                "y": 1
+            }
+        }
+    ]
+}
