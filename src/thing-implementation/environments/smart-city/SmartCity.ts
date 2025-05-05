@@ -81,14 +81,13 @@ export class SmartCity extends Thing {
     }
 
     //Returns a random valid neighbor of the specified coordinates.
-    private getValidNeighbor(coords: Coordinate, ): Coordinate {
+    private getValidNeighbor(coords: Coordinate, prevCell: Coordinate): Coordinate {
         //Filter valid neighbors based on grid boundaries and obstacles.
         const validNeighbors = SmartCity.directions
                 .map(({ x, y }) => ({ x: coords.x + x, y: coords.y + y }))
-                .filter(({ x, y }) => x >= 0 && y >= 0 && x < this.gridWidth && y < this.gridHeight
-                    && !this.obstacles[x][y] == false); //Check if the tile is not an obstacle
-
-        //TODO: add check for previous tile.
+                .filter(({ x, y }) => x >= 0 && y >= 0 && x < this.gridWidth && y < this.gridHeight //Check if cell is inside boudaries.
+                    && this.obstacles[x][y] == false //Check if the tile is not an obstacle.
+                    && (prevCell.x != x && prevCell.y != y)); //Check if tile is not the last visited cell.
 
         const randomNeighbor = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
 
@@ -98,7 +97,7 @@ export class SmartCity extends Thing {
     //Move the specified car in an avilable tile of the grid.
     public async moveCar(carId: string): Promise<void> {
         const car: Car = this.vehicles.get(carId) as Car;
-        const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate);
+        const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate, car.getLastVisitedCell());
         this.vehicles.get(carId)?.moveTo(newPosition);
 
         //TODO: send evento to the eventual license plate reader of the presence of a new car.
