@@ -15,13 +15,13 @@ export class Car extends CityThing {
     //Last visited cell.
     private lastVisitedCell: Coordinate = { x: 0, y: 0 };
 
-    //Speed of the car.
-    private speed: number = 0;//TODO implemet
+    //Speed of the car(time to cross one cell).
+    private speed: number = 0;
 
     //Base structure of the car's TD
     //TODO Rewrite
     private static initBase: WoT.ExposedThingInit = {
-        description: "Representation of a vehicle moving inside the road network.",
+        description: "A vehicle moving inside the road network.",
         forms: [ 
             {
                 href: "things",
@@ -46,11 +46,11 @@ export class Car extends CityThing {
             }
         },
         actions: {
-            move: {//TODO: non mi serve, tengo solo per riferimento
-                description: "Moves the car in the next cell in its path.",
+            moveTo: {
+                description: "Updates the cars position to be in the given cell.",
                 forms: [
                     {
-                        href: "move",
+                        href: "moveTo",
                         op: ["invokeaction"]
                     }
                 ]
@@ -93,9 +93,10 @@ export class Car extends CityThing {
     //The car moves in a random direction from those available
     //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
-        this.environment.moveCar(this.licensePlate);
 
-        //TODO: car should be a periodic thing to simulate the movement speed.
+        if(deltaTime > this.speed) {
+            eventQueue.enqueueEvent(() => this.environment.moveCar(this.licensePlate));
+        }
     }
 }
 
