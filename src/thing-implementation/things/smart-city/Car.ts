@@ -43,14 +43,45 @@ export class Car extends CityThing {
                         contentType: "application/json"
                     }
                 ]
-            }
+            },
+            coords: {
+                type: "object",
+                description: "Coordinates of the car in the grid.",
+                observable: true,
+                readOnly: true,
+                writeOnly: false,
+                forms: [
+                    {
+                        href: "coords",
+                        op: ["readproperty"],
+                        contentType: "application/json"
+                    }
+                ]
+            },
+            speed: {
+                type: "number",
+                description: "Time to cross one cell.",
+                observable: true,
+                readOnly: true,
+                writeOnly: false,
+                forms: [
+                    {
+                        href: "speed",
+                        op: ["readproperty"],
+                        contentType: "application/json"
+                    }
+                ]
+            },
         },
         actions: {
             moveTo: {
                 description: "Updates the cars position to be in the given cell.",
+                input: { type: "object" }, // Coordinate
                 forms: [
                     {
                         href: "moveTo",
+                        response: { contentType: "application/json" },
+                        mediaType: "application/json",
                         op: ["invokeaction"]
                     }
                 ]
