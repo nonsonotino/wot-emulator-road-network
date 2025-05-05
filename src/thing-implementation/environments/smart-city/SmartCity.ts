@@ -1,6 +1,5 @@
 import Servient from "@node-wot/core";
 import { Thing } from "../../Thing";
-import { Tile } from "./Tile";
 import { Car } from "../../things/smart-city/Car"; // Import the Car type
 
 //The SmartCity class models an environment representing the road network of smart city.
@@ -51,17 +50,13 @@ export class SmartCity extends Thing {
         }
     };
 
-    //TODO: FINISH METHOD
+    //TODO: REWRITE METHOD WITHOUT TILE
     //Smart city constructor.
     constructor(servient: Servient, init: WoT.ExposedThingInit) {
-        const tmpGrid: Tile[][] = [];
 
         //Create and configure tiles from config file.
         (init.tiles as any).forEach((tileInit: any) => {
             const coords: Coordinate = {x: Number(init.x), y: Number(init.y)};
-            tmpGrid[tileInit.x][tileInit.y] = new Tile(tileInit.title, coords, tileInit.isObstacle,
-                tileInit.vehicles, tileInit.staticObjects);
-
             const tileId = tileInit.title;
 
             //TODO add properties
@@ -100,7 +95,7 @@ export class SmartCity extends Thing {
         const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate, car.getLastVisitedCell());
         this.vehicles.get(carId)?.moveTo(newPosition);
 
-        //TODO: send evento to the eventual license plate reader of the presence of a new car.
+        //TODO: send event to the eventual license plate reader of the presence of a new car.
     }
 
     //Update function.
