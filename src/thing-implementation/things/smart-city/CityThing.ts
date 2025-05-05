@@ -1,6 +1,7 @@
 import Servient from "@node-wot/core";
 import { SmartCity } from "../../environments/smart-city/SmartCity";
 import { SituatedThing } from "../../SituatedThing";
+import { Coordinate } from "../../environments/smart-city/Coordinate";
 
 // Defines an abstract class that extends SituatedThing.
 // This class represents any object inside the smart city.

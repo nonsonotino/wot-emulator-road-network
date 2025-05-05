@@ -1,6 +1,7 @@
 import Servient from "@node-wot/core";
 import { Thing } from "../../Thing";
 import { Car } from "../../things/smart-city/Car"; // Import the Car type
+import { Coordinate } from "./Coordinate";
 
 //The SmartCity class models an environment representing the road network of smart city.
 //It aims to simulate the movement of a set of cars inside itself keeping track of their positions
@@ -53,15 +54,6 @@ export class SmartCity extends Thing {
     //TODO: REWRITE METHOD WITHOUT TILE
     //Smart city constructor.
     constructor(servient: Servient, init: WoT.ExposedThingInit) {
-
-        //Create and configure tiles from config file.
-        (init.tiles as any).forEach((tileInit: any) => {
-            const coords: Coordinate = {x: Number(init.x), y: Number(init.y)};
-            const tileId = tileInit.title;
-
-            //TODO add properties
-        });
-
         super(servient, init, SmartCity.initBase);
 
         this.configureProperties(init);
