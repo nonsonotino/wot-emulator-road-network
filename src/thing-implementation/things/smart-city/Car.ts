@@ -4,6 +4,7 @@ import { SituatedThing } from "../../SituatedThing";
 import { write } from "fs";
 import { SmartCity } from "../../environments/smart-city/SmartCity";
 import { eventQueue } from "../../../simulation/eventQueue";
+import { Coordinate } from "../../environments/smart-city/Coordinate";
 
 //Class that defines a car inside the smart city simulation.
 //It need to update its position moving in a new road cell.
@@ -19,7 +20,7 @@ export class Car extends CityThing {
     private speed: number = 0;
 
     //Base structure of the car's TD
-    //TODO Rewrite
+
     private static initBase: WoT.ExposedThingInit = {
         description: "A vehicle moving inside the road network.",
         forms: [ 
@@ -48,7 +49,7 @@ export class Car extends CityThing {
                 type: "object",
                 description: "Coordinates of the car in the grid.",
                 observable: true,
-                readOnly: true,
+                readOnly: false,
                 writeOnly: false,
                 forms: [
                     {
@@ -74,29 +75,18 @@ export class Car extends CityThing {
             },
         },
         actions: {
-            moveTo: {
-                description: "Updates the cars position to be in the given cell.",
-                input: { type: "object" }, // Coordinate
-                forms: [
-                    {
-                        href: "moveTo",
-                        response: { contentType: "application/json" },
-                        mediaType: "application/json",
-                        op: ["invokeaction"]
-                    }
-                ]
-            }
         }
     };
 
     //Car constructor.
-    constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity, coords: Coordinate) {
+    constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity) {
         super(servient, init, Car.initBase, environment);
 
-        //Set starting point
-        this.coords = coords;
+        this.setReadHandler("licensePlate");
+        this.setReadHandler("speed");
+        this.setReadHandler("coords");
+        this.setWriteHandler("coords");
 
-        this.setPropertiesDefaultHandler(init);
         this.configureProperties(init);
     }
 
@@ -125,13 +115,13 @@ export class Car extends CityThing {
     //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
 
-        if(deltaTime > this.speed) {
+        if(deltaTime > this.speed) { //TODO: Rewrite this condition.
             eventQueue.enqueueEvent(() => this.environment.moveCar(this.licensePlate));
         }
     }
 }
 
 // Factory function to create a new Car instance.
-export function create(servient: Servient, init: any, environment: SmartCity, coords: Coordinate): Car {
-    return new Car(servient, init, environment, coords);
+export function create(servient: Servient, init: any, environment: SmartCity, coords: Coordinate, speed: number): Car {
+    return new Car(servient, init, environment);
 }
