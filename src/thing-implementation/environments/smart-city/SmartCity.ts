@@ -51,7 +51,6 @@ export class SmartCity extends Thing {
         }
     };
 
-    //TODO: REWRITE METHOD WITHOUT TILE
     //Smart city constructor.
     constructor(servient: Servient, init: WoT.ExposedThingInit) {
         super(servient, init, SmartCity.initBase);
@@ -72,7 +71,8 @@ export class SmartCity extends Thing {
         if (!car) {
             throw new Error('Cannot add undefined or null car');
         }
-        this.vehicles.set(car.getId(), car);
+
+        this.vehicles.set(car.getLicensePlate(), car);
     }
 
     //Returns a random valid neighbor of the specified coordinates.
@@ -105,7 +105,6 @@ export class SmartCity extends Thing {
         });
     }
 
-    //TODO: implement
     //Returns a JSON representation of the SmartCity.
     public toString(): string {
         const excludeFields = ['environment', 'initBase', 'thing', 'lastUpdateTime'];
@@ -131,7 +130,6 @@ export class SmartCity extends Thing {
     }
 }
 
-//TODO: is it necessary?
 //Factory function to create a new SmartCity istance
 export function create(servient: Servient, init: WoT.ExposedThingInit): SmartCity {
     return new SmartCity(servient, init);
