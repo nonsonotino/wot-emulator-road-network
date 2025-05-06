@@ -30,6 +30,17 @@
                 "x": 1,
                 "y": 1
             }
+        },
+        {
+            "title": "car2",
+            "type": "Car",
+            "environment": "SmartCity",
+            "licensePlate": "ABC124",
+            "speed": 60,
+            "cooords": {
+                "x": 1,
+                "y": 1
+            }
         }
     ]
 }
