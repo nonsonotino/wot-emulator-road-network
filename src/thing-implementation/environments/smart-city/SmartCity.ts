@@ -67,6 +67,14 @@ export class SmartCity extends Thing {
         return this.title;
     }
 
+    //Add a new car to the simulation.
+    public addCar(car: Car): void {
+        if (!car) {
+            throw new Error('Cannot add undefined or null car');
+        }
+        this.vehicles.set(car.getId(), car);
+    }
+
     //Returns a random valid neighbor of the specified coordinates.
     private getValidNeighbor(coords: Coordinate, prevCell: Coordinate): Coordinate {
         //Filter valid neighbors based on grid boundaries and obstacles.
@@ -92,13 +100,34 @@ export class SmartCity extends Thing {
 
     //Update function.
     public update(deltaTime: number): void {
-        throw new Error("Method not implemented.");
+        this.vehicles.forEach(car => {
+            car.update(deltaTime); //Update the car position.
+        });
     }
 
     //TODO: implement
     //Returns a JSON representation of the SmartCity.
     public toString(): string {
-        return "";
+        const excludeFields = ['environment', 'initBase', 'thing', 'lastUpdateTime'];
+
+        const cityJson = {
+            title: this.getTitle(),
+            type: this.constructor.name,
+            ...Object.getOwnPropertyNames(this)
+                .filter(field =>
+                    typeof (this as any)[field] !== 'function' &&
+                    !excludeFields.includes(field) &&
+                    field !== 'rooms'
+                )
+                .reduce((obj: { [field: string]: any }, field) => {
+                    obj[field] = (this as any)[field];
+                    return obj;
+                }, {})
+        };
+
+        const jsonString = JSON.stringify(cityJson, null, 2);
+
+        return jsonString;
     }
 }
 
