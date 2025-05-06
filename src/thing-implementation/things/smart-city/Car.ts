@@ -88,6 +88,8 @@ export class Car extends CityThing {
         this.setWriteHandler("coords");
 
         this.configureProperties(init);
+
+        this.environment.addCar(this); //Add the car to the environment.
     }
 
     //Returns the car's liecense plate.
