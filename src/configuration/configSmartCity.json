@@ -2,7 +2,16 @@
     "environments": [
         {
             "type": "SmartCity",
-            "title": "SmartCity"
+            "title": "SmartCity",
+            "gridHeight": 10,
+            "gridWidth": 10,
+            "obstacles": [
+                [false, true, true, true, true],
+                [false, true, false, false, true],
+                [true, true, true, true, true],
+                [true, false, true, false, false],
+                [true, true, true, false, false]
+              ]
         }
     ],
     "servients": [
@@ -39,7 +48,7 @@
             "speed": 60,
             "cooords": {
                 "x": 1,
-                "y": 1
+                "y": 2
             }
         }
     ]
