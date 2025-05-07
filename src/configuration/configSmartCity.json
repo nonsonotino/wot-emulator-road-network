@@ -35,7 +35,7 @@
             "environment": "SmartCity",
             "licensePlate": "ABC123",
             "speed": 60,
-            "cooords": {
+            "coords": {
                 "x": 1,
                 "y": 1
             }
@@ -46,7 +46,7 @@
             "environment": "SmartCity",
             "licensePlate": "ABC124",
             "speed": 60,
-            "cooords": {
+            "coords": {
                 "x": 1,
                 "y": 2
             }
