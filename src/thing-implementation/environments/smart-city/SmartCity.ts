@@ -82,39 +82,47 @@ export class SmartCity extends Thing {
     private getValidNeighbor(coords: Coordinate, prevCell: Coordinate): Coordinate {
         
         //Filter valid neighbors based on grid boundaries and obstacles.
-        const validNeighbors = SmartCity.directions
-            .map(dir => ({
-                x: coords.x + dir.x,
-                y: coords.y + dir.y
-            }))
-            .filter(neighbor => {
-                return (
-                    neighbor.x >= 0 &&
-                    neighbor.x < this.gridWidth &&
-                    neighbor.y >= 0 &&
-                    neighbor.y < this.gridHeight &&
-                    this.obstacles[neighbor.x][neighbor.y] && // Check if the cell is not an obstacle
-                    !(prevCell.x === neighbor.x && prevCell.y === neighbor.y) // Check if the cell is not the previous one
-                );
-            });
+        const validNeighbors: Coordinate[] = [];
+
+        for (const direction of SmartCity.directions) {
+            const newX = coords.x + direction.x;
+            const newY = coords.y + direction.y;
+
+            if (newX >= 0 && newX < this.gridWidth && newY >= 0 && newY < this.gridHeight && this.obstacles[newY][newX] && (newX !== prevCell.x || newY !== prevCell.y)) {
+                validNeighbors.push({ x: newX, y: newY });
+            }
+        }
 
         return validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
     }
 
     //Move the specified car in an avilable tile of the grid.
     public async moveCar(licensePlate: string): Promise<void> {
+        console.clear();
+
         const car: Car = this.vehicles.get(licensePlate) as Car;
         const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate, car.getLastVisitedCell());
         this.vehicles.get(licensePlate)?.moveTo(newPosition);
 
+        //Print the matrix with the car position.
+        for (let y = 0; y < this.gridHeight; y++) {
+            let rowStr = "";
+            for (let x = 0; x < this.gridWidth; x++) {
+              if (x === newPosition.x && y === newPosition.y) {
+                rowStr += "* ";
+              } else {
+                rowStr += this.obstacles[y][x] ? "O " : "X ";
+              }
+            }
+            console.log(rowStr.trim());
+          }
         //TODO: send event to the eventual license plate reader of the presence of a new car.
+        
     }
 
     //Update function.
     public update(deltaTime: number): void {
-        this.vehicles.forEach(car => {
-            car.update(deltaTime); //Update the car position.
-        });
+
     }
 
     //Returns a JSON representation of the SmartCity.
