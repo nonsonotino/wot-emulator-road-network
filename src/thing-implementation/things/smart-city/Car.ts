@@ -82,12 +82,8 @@ export class Car extends CityThing {
     constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity) {
         super(servient, init, Car.initBase, environment);
 
-        this.setReadHandler("licensePlate");
-        this.setReadHandler("speed");
-        this.setReadHandler("coords");
-        this.setWriteHandler("coords");
-
         this.configureProperties(init);
+        this.setPropertiesDefaultHandler(init);
 
         this.environment.addCar(this); //Add the car to the environment.
     }
