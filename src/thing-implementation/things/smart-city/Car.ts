@@ -10,9 +10,6 @@ import { Coordinate } from "../../environments/smart-city/Coordinate";
 //It need to update its position moving in a new road cell.
 export class Car extends PeriodicCityThing {
 
-    //Car identifier.
-    private licensePlate: string = "";
-
     //Last visited cell.
     private lastVisitedCell: Coordinate = { x: 0, y: 0 };
 
@@ -84,11 +81,6 @@ export class Car extends PeriodicCityThing {
 
     }
 
-    //Returns the car's liecense plate.
-    public getLicensePlate(): string {
-        return this.licensePlate;
-    }
-
     //Returns the last visited cell.
     public getLastVisitedCell(): Coordinate {
         return this.lastVisitedCell;
@@ -109,7 +101,7 @@ export class Car extends PeriodicCityThing {
     public toString(): string {
         return JSON.stringify({
             type: this.constructor.name,
-            licensePlate: this.licensePlate,
+            licensePlate: this.objectID,
             coords: this.coords.x + "," + this.coords.y,
             speed: this.period
         });
