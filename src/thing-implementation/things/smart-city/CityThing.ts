@@ -18,4 +18,9 @@ export abstract class PeriodicCityThing extends PeriodicThing<SmartCity> {
     //Position inside the simulation grid
     protected coords: Coordinate = { x: 0, y: 0 };
 
+    //Return the coordinates of the object in the grid.
+    public getCoordinates(): Coordinate {
+        return this.coords;
+    }
+
 } 
