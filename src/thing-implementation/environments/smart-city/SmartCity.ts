@@ -18,11 +18,6 @@ export class SmartCity extends Thing {
     //Obstacles positions.
     private obstacles: boolean[][] = [];
 
-    //List of the vehicles present in the simulation.
-    private vehicles: Map<string, Car> = new Map();
-
-    //TODO traffic light and licenses plates reade lists
-
     //List of the direcrions in which a car can move.
     static directions = [
         { x: 0, y: -1 }, // Up
@@ -69,15 +64,6 @@ export class SmartCity extends Thing {
         return this.title;
     }
 
-    //Add a new car to the simulation.
-    public addCar(car: Car): void {
-        if (!car) {
-            throw new Error('Cannot add undefined or null car');
-        }
-
-        this.vehicles.set(car.getLicensePlate(), car);
-    }
-
     //Returns a random valid neighbor of the specified coordinates.
     private getValidNeighbor(coords: Coordinate, prevCell: Coordinate): Coordinate {
         
@@ -97,12 +83,11 @@ export class SmartCity extends Thing {
     }
 
     //Move the specified car in an avilable tile of the grid.
-    public async moveCar(licensePlate: string): Promise<void> {
+    public async moveCar(car: Car): Promise<void> {
         console.clear();
 
-        const car: Car = this.vehicles.get(licensePlate) as Car;
         const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate, car.getLastVisitedCell());
-        this.vehicles.get(licensePlate)?.moveTo(newPosition);
+        car.moveTo(newPosition);
 
         //Print the matrix with the car position.
         for (let y = 0; y < this.gridHeight; y++) {

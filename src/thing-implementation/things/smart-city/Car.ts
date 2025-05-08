@@ -82,7 +82,6 @@ export class Car extends PeriodicCityThing {
         this.configureProperties(init);
         this.setPropertiesDefaultHandler(init);
 
-        this.environment.addCar(this); //Add the car to the environment.
     }
 
     //Returns the car's liecense plate.
@@ -109,7 +108,7 @@ export class Car extends PeriodicCityThing {
     //The car moves in a random direction from those available
     //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
-        eventQueue.enqueueEvent(() => this.environment.moveCar(this.licensePlate));
+        eventQueue.enqueueEvent(() => this.environment.moveCar(this));
     }
 
     public toString(): string {
