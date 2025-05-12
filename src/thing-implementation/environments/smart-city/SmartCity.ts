@@ -3,6 +3,7 @@ import { Thing } from "../../Thing";
 import { Car } from "../../things/smart-city/Car"; // Import the Car type
 import { Coordinate, areCoordinatesEqual } from "./Coordinate";
 import { TrafficLight } from "../../things/smart-city/TrafficLight";
+import { PlateReader } from "../../things/smart-city/PlateReader";
 
 //The SmartCity class models an environment representing the road network of smart city.
 //It aims to simulate the movement of a set of cars inside itself keeping track of their positions
@@ -21,6 +22,9 @@ export class SmartCity extends Thing {
 
     //List of traffic lights positions.
     private trafficLights: Map<string, TrafficLight> = new Map<string, TrafficLight>();
+
+    //list of plate readers positions.
+    private plateReaders: Map<string, PlateReader> = new Map<string, PlateReader>();
 
     //List of cars positions.
     private cars: Map<string, Car> = new Map<string, Car>();
@@ -79,6 +83,14 @@ export class SmartCity extends Thing {
         }
     }
 
+    //Add plate reader to the simulation grid.
+    public addPlateReader(plateReader: PlateReader): void {
+        const id = plateReader.getId();
+        if (!this.plateReaders.has(id)) {
+            this.plateReaders.set(id, plateReader);
+        }
+    }
+
     public addCar(car: Car): void {
         const coords = car.getCoordinates() as Coordinate;
         if (!this.cars.has(car.getObjectId())) {
@@ -121,11 +133,9 @@ export class SmartCity extends Thing {
 
         const newPosition = this.getValidNeighbor(car.getCoordinates(), car.getLastVisitedCell());
 
-        //TODO change traffic light 
-
         const trafficLight = this.getTrafficLight(newPosition);
 
-        if (trafficLight?.getStatus() == 0) { //TODO fix
+        if (trafficLight?.getStatus() == 0) {
             console.log("Red light, cannot move.");
             return; //The car cannot move to a red light
         } else {
@@ -148,7 +158,6 @@ export class SmartCity extends Thing {
         }
 
         //TODO: send event to the eventual license plate reader of the presence of a new car.
-
     }
 
     //Update function.
