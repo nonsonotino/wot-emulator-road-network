@@ -2,6 +2,7 @@ import Servient from "@node-wot/core";
 import { Thing } from "../../Thing";
 import { Car } from "../../things/smart-city/Car"; // Import the Car type
 import { Coordinate } from "./Coordinate";
+import { TrafficLight } from "../../things/smart-city/TrafficLight";
 
 //The SmartCity class models an environment representing the road network of smart city.
 //It aims to simulate the movement of a set of cars inside itself keeping track of their positions
@@ -17,6 +18,12 @@ export class SmartCity extends Thing {
 
     //Obstacles positions.
     private obstacles: boolean[][] = [];
+
+    //List of traffic lights positions.
+    private trafficLights: Map<Coordinate, TrafficLight> = new Map<Coordinate, TrafficLight>();
+
+    //List of cars positions.
+    private cars: Map<string, Car> = new Map<string, Car>();
 
     //List of the direcrions in which a car can move.
     static directions = [
@@ -39,7 +46,7 @@ export class SmartCity extends Thing {
             }
         ],
         "properties": {
-            
+
         },
         "events": {
 
@@ -64,9 +71,24 @@ export class SmartCity extends Thing {
         return this.title;
     }
 
+    //Add traffic light to the simulation grid.
+    public addTrafficLight(trafficLight: TrafficLight): void {
+        const coords = trafficLight.getCoordinates() as Coordinate;
+        if (!this.trafficLights.has(coords)) {
+            this.trafficLights.set(coords, trafficLight);
+        }
+    }
+
+    public addCar(car: Car): void {
+        const coords = car.getCoordinates() as Coordinate;
+        if (!this.cars.has(car.getObjectId())) {
+            this.cars.set(car.getObjectId(), car);
+        }
+    }
+
     //Returns a random valid neighbor of the specified coordinates.
     private getValidNeighbor(coords: Coordinate, prevCell: Coordinate): Coordinate {
-        
+
         //Filter valid neighbors based on grid boundaries and obstacles.
         const validNeighbors: Coordinate[] = [];
 
@@ -84,25 +106,37 @@ export class SmartCity extends Thing {
 
     //Move the specified car in an avilable tile of the grid.
     public async moveCar(car: Car): Promise<void> {
-        console.clear();
 
         const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate, car.getLastVisitedCell());
-        car.moveTo(newPosition);
 
-        //Print the matrix with the car position.
-        for (let y = 0; y < this.gridHeight; y++) {
-            let rowStr = "";
-            for (let x = 0; x < this.gridWidth; x++) {
-              if (x === newPosition.x && y === newPosition.y) {
-                rowStr += "* ";
-              } else {
-                rowStr += this.obstacles[y][x] ? "O " : "X ";
-              }
+        console.log(this.trafficLights);
+
+        if (this.trafficLights.has(newPosition) && this.trafficLights.get(newPosition)?.getStatus() === 0) {
+            console.log("Red light, cannot move.");
+            return; //The car cannot move to a red light
+        } else {
+            car.moveTo(newPosition);
+
+            //console.clear();
+            console.log(newPosition === car.getLastVisitedCell());
+
+
+            //Print the matrix with the car position.
+            for (let y = 0; y < this.gridHeight; y++) {
+                let rowStr = "";
+                for (let x = 0; x < this.gridWidth; x++) {
+                    if (x === newPosition.x && y === newPosition.y) {
+                        rowStr += "* ";
+                    } else {
+                        rowStr += this.obstacles[y][x] ? "O " : "X ";
+                    }
+                }
+                console.log(rowStr.trim());
             }
-            console.log(rowStr.trim());
-          }
+        }
+
         //TODO: send event to the eventual license plate reader of the presence of a new car.
-        
+
     }
 
     //Update function.
