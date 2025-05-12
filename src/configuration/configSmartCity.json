@@ -33,21 +33,21 @@
             "title": "car1",
             "type": "Car",
             "environment": "SmartCity",
-            "licensePlate": "ABC123",
-            "speed": 60,
+            "objectId": "ABC123",
+            "period": 1000,
             "coords": {
                 "x": 1,
                 "y": 1
             }
         },
         {
-            "title": "car2",
-            "type": "Car",
+            "title": "trafficLight1",
+            "type": "TrafficLight",
             "environment": "SmartCity",
-            "licensePlate": "ABC124",
-            "speed": 60,
+            "objectId": "TL123",
+            "period": 1000000,
             "coords": {
-                "x": 1,
+                "x": 2,
                 "y": 2
             }
         }
