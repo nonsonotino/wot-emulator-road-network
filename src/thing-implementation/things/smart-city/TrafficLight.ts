@@ -50,7 +50,7 @@ export class TrafficLight extends PeriodicCityThing {
         this.status = (this.status + 1) % 2; // 0: red, 1: green
     }
     
-    //Traffica light constructor.
+    //Traffic light constructor.
     constructor(servient: Servient, init: WoT.ExposedThingInit, environment: SmartCity, period: number) {
         super(servient, init, TrafficLight.initBase, environment, period);
 

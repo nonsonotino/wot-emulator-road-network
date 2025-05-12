@@ -5,7 +5,7 @@ import { Coordinate } from "../../environments/smart-city/Coordinate";
 import { PeriodicThing } from "../../PeriodicThing";
 
 //Defines an abstract class that extends SituatedThing.
-//This class represents any static object inside the smart city.
+//This class represents any non time-dependent object inside the smart city.
 export abstract class CityThing extends SituatedThing<SmartCity> {
 
     //Object identifier.
