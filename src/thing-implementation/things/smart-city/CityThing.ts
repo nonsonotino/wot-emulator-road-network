@@ -4,17 +4,10 @@ import { SituatedThing } from "../../SituatedThing";
 import { Coordinate } from "../../environments/smart-city/Coordinate";
 import { PeriodicThing } from "../../PeriodicThing";
 
-// Defines an abstract class that extends SituatedThing.
-// This class represents any object inside the smart city.
+//Defines an abstract class that extends SituatedThing.
+//This class represents any static object inside the smart city.
 export abstract class CityThing extends SituatedThing<SmartCity> {
 
-    //Position inside the simulation grid
-    protected coords: Coordinate = { x: 0, y: 0 };  
-    
-}
-
-export abstract class PeriodicCityThing extends PeriodicThing<SmartCity> {
-    
     //Object identifier.
     protected objectID: string = "";
 
@@ -30,5 +23,25 @@ export abstract class PeriodicCityThing extends PeriodicThing<SmartCity> {
     public getCoordinates(): Coordinate {
         return this.coords;
     }
+}
 
+//Defines an abstract class that extends PeriodicThing.
+//This class represents any object inside the smart city that has a periodic behavior.
+export abstract class PeriodicCityThing extends PeriodicThing<SmartCity> {
+
+    //Object identifier.
+    protected objectID: string = "";
+
+    //Position inside the simulation grid
+    protected coords: Coordinate = { x: 0, y: 0 };
+
+    //Return the object id.
+    public getObjectId(): string {
+        return this.objectID;
+    }
+
+    //Return the coordinates of the object in the grid.
+    public getCoordinates(): Coordinate {
+        return this.coords;
+    }
 } 
