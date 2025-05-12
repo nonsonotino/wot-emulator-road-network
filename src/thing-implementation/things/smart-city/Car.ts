@@ -98,6 +98,7 @@ export class Car extends PeriodicCityThing {
         eventQueue.enqueueEvent(() => this.environment.moveCar(this));
     }
 
+    //Retutn the JSON representation of the car.
     public toString(): string {
         return JSON.stringify({
             type: this.constructor.name,
@@ -108,7 +109,7 @@ export class Car extends PeriodicCityThing {
     }
 }
 
-// Factory function to create a new Car instance.
+//Factory function to create a new Car instance.
 export function create(servient: Servient, init: any, environment: SmartCity, period: number): Car {
     return new Car(servient, init, environment, period);
 }
