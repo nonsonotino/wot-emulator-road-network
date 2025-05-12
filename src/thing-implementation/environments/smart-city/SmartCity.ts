@@ -1,7 +1,7 @@
 import Servient from "@node-wot/core";
 import { Thing } from "../../Thing";
 import { Car } from "../../things/smart-city/Car"; // Import the Car type
-import { Coordinate } from "./Coordinate";
+import { Coordinate, areCoordinatesEqual } from "./Coordinate";
 import { TrafficLight } from "../../things/smart-city/TrafficLight";
 
 //The SmartCity class models an environment representing the road network of smart city.
@@ -20,7 +20,7 @@ export class SmartCity extends Thing {
     private obstacles: boolean[][] = [];
 
     //List of traffic lights positions.
-    private trafficLights: Map<Coordinate, TrafficLight> = new Map<Coordinate, TrafficLight>();
+    private trafficLights: Map<string, TrafficLight> = new Map<string, TrafficLight>();
 
     //List of cars positions.
     private cars: Map<string, Car> = new Map<string, Car>();
@@ -73,9 +73,9 @@ export class SmartCity extends Thing {
 
     //Add traffic light to the simulation grid.
     public addTrafficLight(trafficLight: TrafficLight): void {
-        const coords = trafficLight.getCoordinates() as Coordinate;
-        if (!this.trafficLights.has(coords)) {
-            this.trafficLights.set(coords, trafficLight);
+        const id = trafficLight.getId();
+        if (!this.trafficLights.has(id)) {
+            this.trafficLights.set(id, trafficLight);
         }
     }
 
@@ -84,6 +84,18 @@ export class SmartCity extends Thing {
         if (!this.cars.has(car.getObjectId())) {
             this.cars.set(car.getObjectId(), car);
         }
+    }
+
+    //Search Traffic light by coordinates.
+    public getTrafficLight(coords: Coordinate): TrafficLight | undefined {
+
+        for(let tl of this.trafficLights.values()) {
+            if (areCoordinatesEqual(tl.getCoordinates(), coords)) {
+                return tl;
+            }
+        }
+
+        return undefined;
     }
 
     //Returns a random valid neighbor of the specified coordinates.
@@ -107,19 +119,19 @@ export class SmartCity extends Thing {
     //Move the specified car in an avilable tile of the grid.
     public async moveCar(car: Car): Promise<void> {
 
-        const newPosition = this.getValidNeighbor(car.getCoordinates() as Coordinate, car.getLastVisitedCell());
+        const newPosition = this.getValidNeighbor(car.getCoordinates(), car.getLastVisitedCell());
 
-        console.log(this.trafficLights);
+        //TODO change traffic light 
 
-        if (this.trafficLights.has(newPosition) && this.trafficLights.get(newPosition)?.getStatus() === 0) {
+        const trafficLight = this.getTrafficLight(newPosition);
+
+        if (trafficLight?.getStatus() == 0) { //TODO fix
             console.log("Red light, cannot move.");
             return; //The car cannot move to a red light
         } else {
             car.moveTo(newPosition);
 
-            //console.clear();
-            console.log(newPosition === car.getLastVisitedCell());
-
+            console.clear();
 
             //Print the matrix with the car position.
             for (let y = 0; y < this.gridHeight; y++) {
