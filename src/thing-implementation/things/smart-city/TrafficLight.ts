@@ -40,6 +40,11 @@ export class TrafficLight extends PeriodicCityThing {
         }
     };
 
+    //return the status of the traffic light.
+    public getStatus(): number {
+        return this.status;
+    }
+
     //Change the status of the traffic light.
     public toggle(): void {
         this.status = (this.status + 1) % 2; // 0: red, 1: green
@@ -52,12 +57,12 @@ export class TrafficLight extends PeriodicCityThing {
         this.configureProperties(init);
         this.setPropertiesDefaultHandler(init);
 
-        //TODO add the traffic light to the environment.
+        this.environment.addTrafficLight(this);
     }
 
     //Traffic light update function.
     public update(deltaTime: number): void {
-        this.toggle(); // Change the status of the traffic light
+        this.toggle();
     }
 
     //Retutn the JSON representation of the traffic light.
