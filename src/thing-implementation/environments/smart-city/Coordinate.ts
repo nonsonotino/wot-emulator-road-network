@@ -5,6 +5,7 @@ export type Coordinate = {
     y: number;
 };
 
-function areCoordinatesEqual(a: Coordinate, b: Coordinate): boolean {
+//Coordinate comparison function.
+export function areCoordinatesEqual(a: Coordinate, b: Coordinate): boolean {
     return a.x === b.x && a.y === b.y;
 }
