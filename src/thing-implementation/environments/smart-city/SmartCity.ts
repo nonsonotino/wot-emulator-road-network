@@ -93,9 +93,9 @@ export class SmartCity extends Thing {
 
     //Add car to the simulation grid.
     public addCar(car: Car): void {
-        const coords = car.getCoordinates() as Coordinate;
-        if (!this.cars.has(car.getObjectId())) {
-            this.cars.set(car.getObjectId(), car);
+        console.log("Adding car to the simulation grid" + car.getId());
+        if (!this.cars.has(car.getId())) {
+            this.cars.set(car.getId(), car);
         }
     }
 
@@ -114,7 +114,7 @@ export class SmartCity extends Thing {
     //Rerturn cars by position inside the simulation.
     private getCarsByCoordinates(coords: Coordinate): Car[] {
         const cars: Car[] = [];
-
+    
         for (let car of this.cars.values()) {
             if (areCoordinatesEqual(car.getCoordinates(), coords)) {
                 cars.push(car);

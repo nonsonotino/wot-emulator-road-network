@@ -33,7 +33,7 @@
             "title": "car1",
             "type": "Car",
             "environment": "SmartCity",
-            "objectId": "ABC123",
+            "id": "ABC123",
             "period": 1000,
             "coords": {
                 "x": 1,
@@ -41,10 +41,32 @@
             }
         },
         {
+            "title": "car2",
+            "type": "Car",
+            "environment": "SmartCity",
+            "id": "ABC124",
+            "period": 500,
+            "coords": {
+                "x": 4,
+                "y": 1
+            }
+        },
+        {
+            "title": "car3",
+            "type": "Car",
+            "environment": "SmartCity",
+            "id": "ABC125",
+            "period": 2000,
+            "coords": {
+                "x": 1,
+                "y": 4
+            }
+        },
+        {
             "title": "trafficLight1",
             "type": "TrafficLight",
             "environment": "SmartCity",
-            "objectId": "TL123",
+            "id": "TL123",
             "period": 5000,
             "coords": {
                 "x": 2,

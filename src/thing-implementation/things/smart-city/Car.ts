@@ -53,7 +53,7 @@ export class Car extends PeriodicCityThing {
                     }
                 ]
             },
-            speed: {
+            period: {
                 type: "number",
                 description: "Time to cross one cell.",
                 observable: true,
@@ -61,7 +61,7 @@ export class Car extends PeriodicCityThing {
                 writeOnly: false,
                 forms: [
                     {
-                        href: "speed",
+                        href: "period",
                         op: ["readproperty"],
                         contentType: "application/json"
                     }
@@ -103,8 +103,8 @@ export class Car extends PeriodicCityThing {
     public toString(): string {
         return JSON.stringify({
             type: this.constructor.name,
-            licensePlate: this.objectID,
-            coords: this.coords.x + "," + this.coords.y,
+            licensePlate: this.getId(),
+            coordinates: this.getCoordinates().x + "," + this.getCoordinates().y,
             speed: this.period
         });
     }
