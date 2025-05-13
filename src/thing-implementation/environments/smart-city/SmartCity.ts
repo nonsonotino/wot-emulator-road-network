@@ -91,6 +91,7 @@ export class SmartCity extends Thing {
         }
     }
 
+    //Add car to the simulation grid.
     public addCar(car: Car): void {
         const coords = car.getCoordinates() as Coordinate;
         if (!this.cars.has(car.getObjectId())) {
@@ -99,15 +100,28 @@ export class SmartCity extends Thing {
     }
 
     //Search Traffic light by coordinates.
-    public getTrafficLight(coords: Coordinate): TrafficLight | undefined {
+    private getTrafficLight(coords: Coordinate): TrafficLight | undefined {
 
-        for(let tl of this.trafficLights.values()) {
+        for (let tl of this.trafficLights.values()) {
             if (areCoordinatesEqual(tl.getCoordinates(), coords)) {
                 return tl;
             }
         }
 
         return undefined;
+    }
+
+    //Rerturn cars by position inside the simulation.
+    private getCarsByCoordinates(coords: Coordinate): Car[] {
+        const cars: Car[] = [];
+
+        for (let car of this.cars.values()) {
+            if (areCoordinatesEqual(car.getCoordinates(), coords)) {
+                cars.push(car);
+            }
+        }
+
+        return cars;
     }
 
     //Returns a random valid neighbor of the specified coordinates.
@@ -136,33 +150,36 @@ export class SmartCity extends Thing {
         const trafficLight = this.getTrafficLight(newPosition);
 
         if (trafficLight?.getStatus() == 0) {
-            console.log("Red light, cannot move.");
             return; //The car cannot move to a red light
         } else {
             car.moveTo(newPosition);
-
-            console.clear();
-
-            //Print the matrix with the car position.
-            for (let y = 0; y < this.gridHeight; y++) {
-                let rowStr = "";
-                for (let x = 0; x < this.gridWidth; x++) {
-                    if (x === newPosition.x && y === newPosition.y) {
-                        rowStr += "* ";
-                    } else {
-                        rowStr += this.obstacles[y][x] ? "O " : "X ";
-                    }
-                }
-                console.log(rowStr.trim());
-            }
         }
 
         //TODO: send event to the eventual license plate reader of the presence of a new car.
     }
 
+    //Print the simulation
+    private printGrid(): void {
+        for (let y = 0; y < this.gridHeight; y++) {
+            let rowStr = "";
+            for (let x = 0; x < this.gridWidth; x++) {
+                const coords = { x, y };
+                const cars = this.getCarsByCoordinates(coords);
+
+                if (cars.length > 0) {
+                    rowStr += cars.length + " ";
+                } else {
+                    rowStr += this.obstacles[y][x] ? "O " : "X ";
+                }
+            }
+            console.log(rowStr.trim());
+        }
+    }
+
     //Update function.
     public update(deltaTime: number): void {
-
+        console.clear();
+        this.printGrid();
     }
 
     //Returns a JSON representation of the SmartCity.

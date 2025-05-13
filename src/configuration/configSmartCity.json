@@ -45,7 +45,7 @@
             "type": "TrafficLight",
             "environment": "SmartCity",
             "objectId": "TL123",
-            "period": 1000000,
+            "period": 5000,
             "coords": {
                 "x": 2,
                 "y": 2

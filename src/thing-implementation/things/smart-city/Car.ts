@@ -79,6 +79,7 @@ export class Car extends PeriodicCityThing {
         this.configureProperties(init);
         this.setPropertiesDefaultHandler(init);
 
+        this.environment.addCar(this);
     }
 
     //Returns the last visited cell.
