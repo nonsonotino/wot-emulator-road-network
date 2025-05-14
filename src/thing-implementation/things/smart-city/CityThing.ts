@@ -8,16 +8,8 @@ import { PeriodicThing } from "../../PeriodicThing";
 //This class represents any non time-dependent object inside the smart city.
 export abstract class CityThing extends SituatedThing<SmartCity> {
 
-    //Object identifier.
-    protected objectID: string = "";
-
     //Position inside the simulation grid
     protected coords: Coordinate = { x: 0, y: 0 };
-
-    //Return the object id.
-    public getObjectId(): string {
-        return this.objectID;
-    }
 
     //Return the coordinates of the object in the grid.
     public getCoordinates(): Coordinate {
@@ -29,16 +21,8 @@ export abstract class CityThing extends SituatedThing<SmartCity> {
 //This class represents any object inside the smart city that has a periodic behavior.
 export abstract class PeriodicCityThing extends PeriodicThing<SmartCity> {
 
-    //Object identifier.
-    protected objectID: string = "";
-
     //Position inside the simulation grid
     protected coords: Coordinate = { x: 0, y: 0 };
-
-    //Return the object id.
-    public getObjectId(): string {
-        return this.objectID;
-    }
 
     //Return the coordinates of the object in the grid.
     public getCoordinates(): Coordinate {
