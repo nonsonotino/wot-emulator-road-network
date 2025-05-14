@@ -4,6 +4,7 @@ import { Car } from "../../things/smart-city/Car"; // Import the Car type
 import { Coordinate, areCoordinatesEqual } from "./Coordinate";
 import { TrafficLight } from "../../things/smart-city/TrafficLight";
 import { PlateReader } from "../../things/smart-city/PlateReader";
+import { title } from "process";
 
 //The SmartCity class models an environment representing the road network of smart city.
 //It aims to simulate the movement of a set of cars inside itself keeping track of their positions
@@ -184,26 +185,14 @@ export class SmartCity extends Thing {
 
     //Returns a JSON representation of the SmartCity.
     public toString(): string {
-        const excludeFields = ['environment', 'initBase', 'thing', 'lastUpdateTime'];
-
-        const cityJson = {
+        return JSON.stringify({
             title: this.getTitle(),
             type: this.constructor.name,
-            ...Object.getOwnPropertyNames(this)
-                .filter(field =>
-                    typeof (this as any)[field] !== 'function' &&
-                    !excludeFields.includes(field) &&
-                    field !== 'rooms'
-                )
-                .reduce((obj: { [field: string]: any }, field) => {
-                    obj[field] = (this as any)[field];
-                    return obj;
-                }, {})
-        };
-
-        const jsonString = JSON.stringify(cityJson, null, 2);
-
-        return jsonString;
+            //TODO: GRID
+            cars_number: this.cars.size,
+            trafficlight_number: this.trafficLights.size,
+            platereader_number: this.plateReaders.size
+        });
     }
 }
 

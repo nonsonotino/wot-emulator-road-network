@@ -1,6 +1,7 @@
 import Servient from "@node-wot/core";
 import { SmartCity } from "../../environments/smart-city/SmartCity";
 import { CityThing, PeriodicCityThing } from "./CityThing";
+import { title } from "process";
 
 
 //Class that defines a trafic light inside the smart city simulation.
@@ -68,10 +69,11 @@ export class TrafficLight extends PeriodicCityThing {
     //Retutn the JSON representation of the traffic light.
     public toString(): string {
         return JSON.stringify({
-            type: "TrafficLight",
+            title: this.getTitle(),
+            type: this.constructor.name,
             id: this.getId(),
-            coords: this.getCoordinates(),
-            status: this.status,
+            coordinates: this.getCoordinates().x + " - " + this.getCoordinates().y,
+            status: this.getStatus()
         })
     }
 

@@ -5,6 +5,7 @@ import { write } from "fs";
 import { SmartCity } from "../../environments/smart-city/SmartCity";
 import { eventQueue } from "../../../simulation/eventQueue";
 import { Coordinate } from "../../environments/smart-city/Coordinate";
+import { title } from "process";
 
 //Class that defines a car inside the smart city simulation.
 //It need to update its position moving in a new road cell.
@@ -102,9 +103,10 @@ export class Car extends PeriodicCityThing {
     //Retutn the JSON representation of the car.
     public toString(): string {
         return JSON.stringify({
+            title: this.getTitle(),
             type: this.constructor.name,
             licensePlate: this.getId(),
-            coordinates: this.getCoordinates().x + "," + this.getCoordinates().y,
+            coordinates: this.getCoordinates().x + " - " + this.getCoordinates().y,
             speed: this.period
         });
     }
