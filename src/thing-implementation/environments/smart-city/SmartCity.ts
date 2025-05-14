@@ -113,6 +113,18 @@ export class SmartCity extends Thing {
         return undefined;
     }
 
+    //Search Plate reader by coordinates.
+    private getPlateReader(coords: Coordinate): PlateReader | undefined {
+
+        for (let pr of this.plateReaders.values()) {
+            if (areCoordinatesEqual(pr.getCoordinates(), coords)) {
+                return pr;
+            }
+        }
+
+        return undefined;
+    }
+
     //Rerturn cars by position inside the simulation.
     private getCarsByCoordinates(coords: Coordinate): Car[] {
         const cars: Car[] = [];
@@ -148,8 +160,8 @@ export class SmartCity extends Thing {
     public async moveCar(car: Car): Promise<void> {
 
         const newPosition = this.getValidNeighbor(car.getCoordinates(), car.getLastVisitedCell());
-
         const trafficLight = this.getTrafficLight(newPosition);
+        const plateReader = this.getPlateReader(newPosition);
 
         if (trafficLight?.getStatus() == 0) {
             return; //The car cannot move to a red light
@@ -158,6 +170,9 @@ export class SmartCity extends Thing {
         }
 
         //TODO: send event to the eventual license plate reader of the presence of a new car.
+        if(plateReader != undefined) {
+            plateReader.addEvent(car.getId());
+        }
     }
 
     //Print the simulation
