@@ -69,7 +69,7 @@ export class TrafficLight extends PeriodicCityThing {
     public toString(): string {
         return JSON.stringify({
             type: "TrafficLight",
-            id: this.getObjectId(),
+            id: this.getId(),
             coords: this.getCoordinates(),
             status: this.status,
         })
