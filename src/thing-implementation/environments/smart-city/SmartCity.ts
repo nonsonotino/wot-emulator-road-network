@@ -160,7 +160,9 @@ export class SmartCity extends Thing {
     }
 
     //Print the simulation
-    private printGrid(): void {
+    private getGrid(): string {
+        let grid = "";
+
         for (let y = 0; y < this.gridHeight; y++) {
             let rowStr = "";
             for (let x = 0; x < this.gridWidth; x++) {
@@ -173,14 +175,16 @@ export class SmartCity extends Thing {
                     rowStr += this.obstacles[y][x] ? "O " : "X ";
                 }
             }
-            console.log(rowStr.trim());
+            grid += rowStr.trim() + "\n";
         }
+
+        return grid;
     }
 
     //Update function.
     public update(deltaTime: number): void {
         console.clear();
-        this.printGrid();
+        console.log(this.getGrid());
     }
 
     //Returns a JSON representation of the SmartCity.
@@ -188,10 +192,10 @@ export class SmartCity extends Thing {
         return JSON.stringify({
             title: this.getTitle(),
             type: this.constructor.name,
-            //TODO: GRID
             cars_number: this.cars.size,
             trafficlight_number: this.trafficLights.size,
-            platereader_number: this.plateReaders.size
+            platereader_number: this.plateReaders.size,
+            grid:"\n" + this.getGrid()
         });
     }
 }

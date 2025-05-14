@@ -76,7 +76,6 @@ export class TrafficLight extends PeriodicCityThing {
             status: this.getStatus()
         })
     }
-
 }
 
 //Factory function to create a new TrafficLight instance.
