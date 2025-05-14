@@ -72,6 +72,16 @@
                 "x": 2,
                 "y": 2
             }
+        },
+        {
+            "title": "plateReader1",
+            "type": "PlateReader",
+            "environment": "SmartCity",
+            "id": "PR123",
+            "coords": {
+                "x": 2,
+                "y": 2
+            }
         }
     ]
 }

@@ -60,6 +60,13 @@ export class PlateReader extends CityThing {
         return this.history;
     }
 
+    //Return formatted history of the plate reader.
+    public getFormattedHistory(): string {
+        return this.history.map(event => {
+            return `Licence plate: ${event.licencePlate}, Timestamp: ${event.timestamp}`;
+        }).join("\n");
+    }
+
     //TODO MAKE IT OBSERVABLE
     //Add a new event to the plate reader history.
     public addEvent(licencePlate: string): void {
@@ -81,8 +88,8 @@ export class PlateReader extends CityThing {
             title: this.getTitle(),
             type: this.constructor.name,
             id: this.getId(),
-            coordinates: this.getCoordinates(),
-            history: this.getHistory()
+            coordinates: this.getCoordinates().x + " - " + this.getCoordinates().y,
+            history: this.getFormattedHistory()
         });
     }
 }
