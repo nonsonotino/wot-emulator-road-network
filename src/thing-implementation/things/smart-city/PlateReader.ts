@@ -60,6 +60,16 @@ export class PlateReader extends CityThing {
         return this.history;
     }
 
+    //TODO MAKE IT OBSERVABLE
+    //Add a new event to the plate reader history.
+    public addEvent(licencePlate: string): void {
+        const event: ReaderEvent = {
+            licencePlate: licencePlate,
+            timestamp: new Date()
+        };
+        this.history.push(event);
+    }
+
     //Plate reader update method.
     public update(deltaTime: number): void {
 
