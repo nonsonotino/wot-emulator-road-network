@@ -41,14 +41,14 @@ export class TrafficLight extends PeriodicCityThing {
         }
     };
 
-    //return the status of the traffic light.
+    //Return the status of the traffic light.
     public getStatus(): number {
         return this.status;
     }
 
     //Change the status of the traffic light.
     public toggle(): void {
-        this.status = (this.status + 1) % 2; // 0: red, 1: green
+        this.status = (this.status + 1) % 2; //0: red, 1: green.
     }
     
     //Traffic light constructor.

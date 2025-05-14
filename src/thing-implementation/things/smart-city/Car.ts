@@ -94,7 +94,7 @@ export class Car extends PeriodicCityThing {
         this.coords = newCoords;
     }
 
-    //The car moves in a random direction from those available
+    //The car moves in a random direction from those available and
     //updates its own position and the position in the environment.
     public update(deltaTime: number): void {
         eventQueue.enqueueEvent(() => this.environment.moveCar(this));

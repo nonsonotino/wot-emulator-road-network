@@ -5,6 +5,7 @@ import { Coordinate, areCoordinatesEqual } from "./Coordinate";
 import { TrafficLight } from "../../things/smart-city/TrafficLight";
 import { PlateReader } from "../../things/smart-city/PlateReader";
 import { title } from "process";
+import { get } from "http";
 
 //The SmartCity class models an environment representing the road network of smart city.
 //It aims to simulate the movement of a set of cars inside itself keeping track of their positions
@@ -32,13 +33,13 @@ export class SmartCity extends Thing {
 
     //List of the direcrions in which a car can move.
     static directions = [
-        { x: 0, y: -1 }, // Up
-        { x: 1, y: 0 }, // Right
-        { x: 0, y: 1 }, // Down
-        { x: -1, y: 0 } // Left
+        { x: 0, y: -1 }, //Up
+        { x: 1, y: 0 }, //Right
+        { x: 0, y: 1 }, //Down
+        { x: -1, y: 0 } //Left
     ];
 
-    // Base structure of the city's TD.
+    //Base structure of the city's TD.
     private static initBase: WoT.ExposedThingInit = {
         "@context": "https://www.w3.org/2019/wot/td/v1",
         "@type": "Environment",
@@ -115,7 +116,7 @@ export class SmartCity extends Thing {
     //Rerturn cars by position inside the simulation.
     private getCarsByCoordinates(coords: Coordinate): Car[] {
         const cars: Car[] = [];
-    
+
         for (let car of this.cars.values()) {
             if (areCoordinatesEqual(car.getCoordinates(), coords)) {
                 cars.push(car);
@@ -171,6 +172,9 @@ export class SmartCity extends Thing {
 
                 if (cars.length > 0) {
                     rowStr += cars.length + " ";
+                }
+                else if (this.getTrafficLight(coords) != undefined) {
+                    rowStr += "+ ";
                 } else {
                     rowStr += this.obstacles[y][x] ? "O " : "X ";
                 }
@@ -195,7 +199,7 @@ export class SmartCity extends Thing {
             cars_number: this.cars.size,
             trafficlight_number: this.trafficLights.size,
             platereader_number: this.plateReaders.size,
-            grid:"\n" + this.getGrid()
+            grid: "\n" + this.getGrid()
         });
     }
 }
