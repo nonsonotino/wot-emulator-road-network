@@ -169,7 +169,6 @@ export class SmartCity extends Thing {
             car.moveTo(newPosition);
         }
 
-        //TODO: send event to the eventual license plate reader of the presence of a new car.
         if(plateReader != undefined) {
             plateReader.addEvent(car.getId());
         }

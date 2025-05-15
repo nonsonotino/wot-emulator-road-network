@@ -51,7 +51,6 @@ export class PlateReader extends CityThing {
         this.configureProperties(init);
         this.setPropertiesDefaultHandler(init);
 
-        //TODO add to environment
         this.environment.addPlateReader(this);
     }
 
@@ -65,6 +64,19 @@ export class PlateReader extends CityThing {
         return this.history.map(event => {
             return `Licence plate: ${event.licencePlate}, Timestamp: ${event.timestamp}`;
         }).join("\n");
+    }
+
+    //Return the last detected event.
+    public getLastEvent(): ReaderEvent | null {
+        if (this.history.length > 0) {
+            return this.history[this.history.length - 1];
+        }
+        return null;
+    }
+
+    //Return the string representation of the event.
+    public eventToString(event: ReaderEvent): string {
+        return `Licence plate: ${event.licencePlate}, Timestamp: ${event.timestamp}`;
     }
 
     //TODO MAKE IT OBSERVABLE
@@ -89,7 +101,7 @@ export class PlateReader extends CityThing {
             type: this.constructor.name,
             id: this.getId(),
             coordinates: this.getCoordinates().x + " - " + this.getCoordinates().y,
-            history: this.getFormattedHistory()
+            last_detected_event: this.eventToString(this.getLastEvent());
         });
     }
 }
