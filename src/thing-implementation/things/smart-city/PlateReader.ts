@@ -2,6 +2,7 @@ import Servient from "@node-wot/core";
 import { SmartCity } from "../../environments/smart-city/SmartCity";
 import { CityThing, PeriodicCityThing } from "./CityThing";
 import { title } from "process";
+import { get } from "http";
 
 //Type representing the event emitted by the plate reader. 
 export type ReaderEvent  = {
@@ -101,7 +102,7 @@ export class PlateReader extends CityThing {
             type: this.constructor.name,
             id: this.getId(),
             coordinates: this.getCoordinates().x + " - " + this.getCoordinates().y,
-            last_detected_event: this.eventToString(this.getLastEvent());
+            last_detected_event: this.getLastEvent() != null ? this.eventToString(this.getLastEvent() as ReaderEvent) : "No events detected",
         });
     }
 }
