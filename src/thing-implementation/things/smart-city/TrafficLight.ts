@@ -4,7 +4,7 @@ import { CityThing, PeriodicCityThing } from "./CityThing";
 import { title } from "process";
 
 
-//Class that defines a trafic light inside the smart city simulation.
+//Class that defines a traffic light inside the smart city simulation.
 export class TrafficLight extends PeriodicCityThing {
 
     //State of the traffic light.

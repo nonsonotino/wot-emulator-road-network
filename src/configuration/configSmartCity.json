@@ -17,15 +17,9 @@
     "servients": [
         {
             "id": 0,
-            "type": "http",
+            "type": "mqtt",
             "host": "localhost",
-            "port": 8081
-        },
-        {
-            "id": 1,
-            "type": "http",
-            "host": "localhost",
-            "port": 8082
+            "port": 1883
         }
     ],
     "things": [

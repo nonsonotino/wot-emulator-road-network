@@ -5,11 +5,12 @@ import { title } from "process";
 import { get } from "http";
 
 //Type representing the event emitted by the plate reader. 
-export type ReaderEvent  = {
+export type ReaderEvent = {
     licencePlate: string,
     timestamp: Date,
 };
 
+//Class defining a plate reader inside the smart city simulation.
 export class PlateReader extends CityThing {
 
     //Plate reader history.
@@ -41,7 +42,25 @@ export class PlateReader extends CityThing {
                 ]
             }
         },
-        actions: {
+        events: {
+            car_detected: {
+                "description": "Event emitted when a car is detected by the plate reader.",
+                "carId": {
+                    "type": "string",
+                    "description": "The car licence plate detected by the reader."
+                },
+                "timestamp": {
+                    "type": "Date",
+                    "description": "timestamp of the event."
+                },
+                "forms": [
+                    {
+                        "href": "car_detected",
+                        "op": ["subscribeevent"],
+                        "contentType": "application/json"
+                    }
+                ]
+            }
         }
     };
 
@@ -88,6 +107,10 @@ export class PlateReader extends CityThing {
             timestamp: new Date()
         };
         this.history.push(event);
+        this.emitEvent("car_detected", {
+            licencePlate: licencePlate,
+            timestamp: new Date()
+        });
     }
 
     //Plate reader update method.

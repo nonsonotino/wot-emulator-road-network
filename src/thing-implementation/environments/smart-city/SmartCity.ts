@@ -201,7 +201,7 @@ export class SmartCity extends Thing {
 
     //Update function.
     public update(deltaTime: number): void {
-        console.clear();
+        //console.clear();
         console.log(this.getGrid());
     }
 
